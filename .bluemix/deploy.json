@@ -1,47 +1,82 @@
 {
     "$schema": "http://json-schema.org/draft-04/schema#",
-     "messages": {
-       "$i18n": "locales.yml"
+    "messages": {
+        "$i18n": "locales.yml"
     },
-     "title": {
-      "$ref": "#/messages/deploy.title"
+    "title": {
+        "$ref": "#/messages/deploy.title"
     },
-     "longDescription": {
-      "$ref": "#/messages/deploy.longDescription"
+    "description": {
+        "$ref": "#/messages/deploy.description"
+    },
+    "longDescription": {
+        "$ref": "#/messages/deploy.longDescription"
     },
     "type": "object",
     "properties": {
-        "pipeline_name": {
+        "zzz-api-kee": {
+            "description": "Simon's API Kee that he wished worked",
             "type": "string"
         },
-        "api-key": {
-            "description": {
-                "$ref": "#/messages/deploy.apiKeyDescription"
-            },
+        "zzz-api-key": {
+            "description": "Simon's API Key",
             "type": "string"
+        },
+        "prod-app-name": {
+            "description": {
+                "$ref": "#/messages/deploy.appDescription"
+            },
+            "type": "string",
+            "pattern": "\\S"
+        },
+        "prod-app-name2": {
+            "description": {
+                "$ref": "#/messages/deploy.appDescription"
+            },
+            "type": "string",
+            "pattern": "\\S"
         }
     },
-    "required": ["api-key"],
+    "required": [
+        "prod-app-name"
+    ],
     "form": [
-	{
+        {
             "type": "validator",
             "url": "/devops/setup/bm-helper/helper.html"
         },
         {
-	        "type": "password",
-	        "readonly": false,
-	        "title": {
-                   "$ref": "#/messages/deploy.apiKeyTitle"
-                },
-	        "key": "api-key"
+            "type": "password",
+            "readonly": false,
+            "title": "Simon's Form API Kee",
+            "key": "zzz-api-kee",
+            "displayType": "api-key"
         },
         {
-            "type": "text",
-            "readonly": true,
-            "title": {
-                "$ref": "#/messages/deploy.form.description"
-            },
-            "key": "pipeline_name"
+            "type": "password",
+            "readonly": false,
+            "title": "Simon's Form API Key",
+            "key": "zzz-api-key"
+        },
+        {
+            "type": "select",
+            "key": "prod-app-name",
+            "$populate": {
+                "method": "populateCFRegions",
+                "params": {
+                    "apiKey": "zzz-api-kee"
+                }
+            }
+        },
+        {
+            "type": "select",
+            "key": "prod-app-name2",
+            "$populate": {
+                "method": "populateCFRegions",
+                "params": {
+                    "apiKey": "zzz-api-key"
+                }
+            }
         }
     ]
 }
